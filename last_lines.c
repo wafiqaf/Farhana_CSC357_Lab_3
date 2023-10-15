@@ -31,11 +31,11 @@ void linegetter(FILE *in_file) {
 		printf("%s", line);
 		
 		// if it is not the end of the program, 
-		printf("%s", &line[(strlen(line)-1)]);
+		printf("%s", &line[(strlen(line))]);
 		//char lastchar = &line[(strlen(line)-1)];
 		//printf("%d", lastchar);
 
-		if (&line[(strlen(line)-1)] == '\n') {
+		if (&line[(strlen(line)-2)] == '\n') {
 			// save current line as last line
 			printf("hi");
 			lastline = strdup(line);
