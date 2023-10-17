@@ -6,7 +6,10 @@
 void validate_args(int argc, char *argv[]) {
 
 	if (argc < 2) {
-		fprintf(stdout, "usage: %s input\n", argv[0]);
+		fprintf(stdout, "Please enter file!\n");
+		exit(-1);
+	} else if (argc > 2) {
+		fprintf(stdout, "Too many files!\n");
 		exit(-1);
 	}
 }
@@ -24,33 +27,46 @@ FILE *open_file(char *name, char *mode) {
 void linegetter(FILE *in_file) {
 	char *line = NULL;
 	char *lastline = NULL;
+	char *currline = NULL;
+	
+	int first = 0;
 	size_t size;
 
 	while (getline(&line, &size, in_file) > 0) {
-		// print current line
-		printf("%s", line);
-		
-		// if it is not the end of the program, 
-		printf("%s", &line[(strlen(line))]);
-		//char lastchar = &line[(strlen(line)-1)];
-		//printf("%d", lastchar);
-
-		if (&line[(strlen(line)-2)] == '\n') {
-			// save current line as last line
-			printf("hi");
+		// if it's the first line, make that line the last line
+		if (first == 0) {
 			lastline = strdup(line);
+			first++;
+		// if it's the second line, make the current line line the line read
+		} else if (first == 1) {
+			currline = strdup(line);	
+			first++;
+		// in other cases, make the lastline the currline, etc
 		} else {
-			printf("hello");
-			printf("%s", lastline);
-			printf("%s", line);
+			lastline = strdup(currline);
+			currline = strdup(line);
 		}
 	}
 
-	//printf("%s", lastline);
-	//printf("%s", line);
-	
+	// edge cases + final printout
+	// empty file
+	if (lastline == NULL) {
+		// print nothing :3
+	} else if (first == 1) {
+		printf("%s", line);
+	} else {
+		// print both the lastline and the line
+		printf("%s", lastline);
+		printf("%s", line);
+	}
+
+	// safety
+	free(currline);	
 	free(lastline);
 	free(line);
+	currline = NULL;
+	lastline = NULL;
+	line = NULL;
 }
 
 int main(int argc, char *argv[]) {
