@@ -2,14 +2,15 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-#define ARRSIZE 2
+#define ARRSIZE 1
 
 int main()
 {
 	int file;
 	char* stack = (char*) calloc(ARRSIZE, sizeof(char));
+	char* entrfil = "/usr/lib/locale/locale-archive";
 
-	file = open("sample.txt", O_RDONLY);
+	file = open(entrfil, O_RDONLY);
 	if (file < 0) {
 		perror("Could not open file.");
 		exit(1);
@@ -19,5 +20,7 @@ int main()
 	// safety procedures
 	close(file);
 	free(stack);
+	stack = NULL;
+	free(entrfil);
 	stack = NULL;
 }	

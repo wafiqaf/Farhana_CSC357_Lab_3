@@ -5,8 +5,9 @@ int main()
 {
 	FILE *readptr;
 	char buff[ARRSIZE];
+	char* entrfil = "/usr/lib/locale/locale-archive";
 
-	readptr = fopen("sample.txt", "r");
+	readptr = fopen(entrfil, "r");
 	fread(buff, sizeof(buff), 1, readptr);
 	fclose(readptr);
 	
